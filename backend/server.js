@@ -1,9 +1,17 @@
 const express = require("express");
+const tasksRouter = require("./routes/tasks");
+const employeesRouter = require("./routes/employees");
+const { sequelize } = require("./database");
+
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.json());
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.use("/tasks", tasksRouter);
+app.use("/employees", employeesRouter);
+
+sequelize.sync().then(() => {
+  app.listen(3000, () => {
+    console.log("Server listening on port 3000");
+  });
+});
