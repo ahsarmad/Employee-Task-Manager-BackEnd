@@ -1,9 +1,16 @@
 const express = require("express");
+const cors = require("cors");
 const tasksRouter = require("./routes/tasks");
 const employeesRouter = require("./routes/employees");
 const { sequelize } = require("./database");
 
 const app = express();
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3001", // or replace with domain name
+//   })
+// );
 
 app.use(express.json());
 

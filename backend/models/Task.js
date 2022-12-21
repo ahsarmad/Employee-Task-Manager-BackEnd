@@ -8,7 +8,7 @@ const Task = sequelize.define("task", {
     allowNull: false,
   },
   priorityLevel: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
   },
   completionStatus: {
