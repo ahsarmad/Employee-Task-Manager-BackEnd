@@ -6,12 +6,6 @@ const { sequelize } = require("./database");
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:3001", // or replace with domain name
-//   })
-// );
-
 app.use(express.json());
 
 app.use("/tasks", tasksRouter);
