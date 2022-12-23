@@ -1,16 +1,7 @@
 const express = require("express");
-const Employee = require("../models/Employee");
+const Employee = require("../models/Employee"); // or wherever you have your Employee model defined
 
 const router = express.Router();
-
-//!We'll do the following:
-/**
- * * GET /employees: retrieves all employees from the database
- * * GET /employees/:id: retrieves a single employee based on their id, including their tasks
- * * POST /employees: adds a new employee to the database
- * * PUT /employees/:id: updates an existing employee in the database
- * * DELETE /employees/:id: deletes an employee from the database
- */
 
 // Get all employees
 router.get("/", async (req, res) => {
@@ -25,9 +16,7 @@ router.get("/", async (req, res) => {
 // Get a single employee by ID
 router.get("/:id", async (req, res) => {
   try {
-    const employee = await Employee.findByPk(req.params.id, {
-      include: [{ model: Task, as: "tasks" }],
-    });
+    const employee = await Employee.findByPk(req.params.id);
     if (!employee) {
       res.status(404).send("Employee not found");
       return;

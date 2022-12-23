@@ -3,17 +3,12 @@ const { Task, Employee } = require("../models/Task");
 
 const router = express.Router();
 
-//! We'll do the following:
-/**
- * * GET /tasks: retrieves all tasks from the database, including the employee assigned to each task
- * * GET /tasks/:id: retrieves a single task based on its id, including the employee assigned to the task
- * * `POST /tasks
- */
-
 // Get all tasks
 router.get("/", async (req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      include: [{ model: Employee, as: "employee" }],
+    });
     res.json(tasks);
   } catch (error) {
     res.status(500).send(error.message);
@@ -74,89 +69,6 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
-});
-
-module.exports = router;
-
-//
-
-// Return all tasks in the database
-router.get("/", (req, res) => {
-  Task.findAll()
-    .then((tasks) => {
-      res.json(tasks);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Error retrieving tasks." });
-    });
-});
-
-// Return a single task based on its id
-router.get("/:id", (req, res) => {
-  Task.findByPk(req.params.id)
-    .then((task) => {
-      if (task) {
-        res.json(task);
-      } else {
-        res.status(404).json({ message: "Task not found." });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Error retrieving task." });
-    });
-});
-
-// Create a new task
-router.post("/", (req, res) => {
-  Task.create(req.body)
-    .then((task) => {
-      res.status(201).json(task);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Error creating task." });
-    });
-});
-
-// Update an existing task
-router.put("/:id", (req, res) => {
-  Task.findByPk(req.params.id)
-    .then((task) => {
-      if (task) {
-        return task.update(req.body);
-      } else {
-        res.status(404).json({ message: "Task not found." });
-      }
-    })
-    .then((task) => {
-      res.json(task);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Error updating task." });
-    });
-});
-
-// Delete a task
-router.delete("/:id", (req, res) => {
-  Task.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((numDeleted) => {
-      if (numDeleted) {
-        res.json({ message: "Task deleted." });
-      } else {
-        res.status(404).json({ message: "Task not found." });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Error deleting task." });
-    });
 });
 
 module.exports = router;
