@@ -31,10 +31,23 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new task
+// Get all tasks assigned to a specific employee
+router.get("/employees/:employeeId/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.findAll({
+      where: { employeeId: req.params.employeeId },
+      include: [{ model: Employee, as: "employee" }],
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+// Create a new task and assign it to an employee
 router.post("/", async (req, res) => {
   try {
-    const task = await Task.create(req.body);
+    const task = await Task.create({ ...req.body });
     res.status(201).json(task);
   } catch (error) {
     res.status(500).send(error.message);

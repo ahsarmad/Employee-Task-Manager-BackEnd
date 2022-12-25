@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3001", // replace with your frontend domain
+    origin: "http://localhost:3001",
   })
 );
 
