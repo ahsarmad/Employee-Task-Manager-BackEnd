@@ -3,7 +3,7 @@ const cors = require("cors");
 const tasksRouter = require("./routes/tasks");
 const employeesRouter = require("./routes/employees");
 const { sequelize } = require("./database");
-
+const port = process.env.PORT || 3000;
 const app = express();
 
 {
@@ -29,7 +29,7 @@ app.use("/tasks", tasksRouter);
 app.use("/employees", employeesRouter);
 
 sequelize.sync().then(() => {
-  app.listen(3000, () => {
-    console.log("Server listening on port 3000");
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
   });
 });
