@@ -6,6 +6,17 @@ const { sequelize } = require("./database");
 
 const app = express();
 
+{
+  /**
+   * * added cors to prevent server blocking for the front end. I have been
+   * * deploying the frontend on localhost:3001 and the
+   * * backend on localhost:3000. You can adjust these based on the
+   * * configurations you prefer. For production purposes and global server
+   * * deployment, I would probably take a more sophisticated approach, and have
+   * * these deployed on a cloud system
+   */
+}
+
 app.use(
   cors({
     origin: "http://localhost:3001",
